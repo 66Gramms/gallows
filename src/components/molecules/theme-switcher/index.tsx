@@ -22,7 +22,11 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <Button onClick={toggleTheme} className="fixed top-4 right-4">
+    <Button
+      onClick={toggleTheme}
+      variant="secondary"
+      className="fixed top-4 right-4"
+    >
       {theme === "dark" ? "🌞" : "🌙"}
     </Button>
   );

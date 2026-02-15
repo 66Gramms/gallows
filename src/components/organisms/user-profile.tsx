@@ -28,7 +28,11 @@ export default function UserProfile() {
           {user.user_metadata?.full_name || "User"}
         </span>
       </div>
-      <Button onClick={handleSignOut} disabled={signOutMutation.isPending}>
+      <Button
+        onClick={handleSignOut}
+        disabled={signOutMutation.isPending}
+        variant="danger"
+      >
         {signOutMutation.isPending ? "Signing out..." : "Sign Out"}
       </Button>
     </div>

@@ -15,12 +15,14 @@ export default function AuthForm() {
       <div className="flex gap-2 mb-6">
         <Button
           onClick={() => setMode("signin")}
+          variant="secondary"
           className={mode === "signin" ? "opacity-100" : "opacity-50"}
         >
           Sign In
         </Button>
         <Button
           onClick={() => setMode("signup")}
+          variant="secondary"
           className={mode === "signup" ? "opacity-100" : "opacity-50"}
         >
           Sign Up

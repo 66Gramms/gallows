@@ -39,7 +39,9 @@ export default function PageState({
       {message && <p className="text-lg">{message}</p>}
       {details && <p className="text-sm text-gray-500">{details}</p>}
       {onAction ? (
-        <Button onClick={onAction}>{actionLabel}</Button>
+        <Button onClick={onAction} variant="secondary">
+          {actionLabel}
+        </Button>
       ) : (
         <Link
           href="/"

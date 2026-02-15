@@ -49,7 +49,7 @@ export default function GameResult({
         <Button onClick={onRestart} className="w-full">
           {currentConfig.buttonText}
         </Button>
-        <Button onClick={onGoHome} className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-600">
+        <Button onClick={onGoHome} variant="secondary" className="w-full">
           Go Home
         </Button>
       </div>
