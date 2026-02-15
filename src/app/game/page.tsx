@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useRandomWord } from "@/hooks/use-random-word";
 import { WordDifficulty, GameStatus } from "@/constants/general";
@@ -8,24 +8,44 @@ import Button from "@/components/molecules/button";
 import Link from "next/link";
 import VirtualKeyboard from "@/components/organisms/virtual-keyboard";
 import WordDisplay from "@/components/organisms/word-display";
-import { useQueryClient } from "@tanstack/react-query";
-import { QueryKeys } from "@/constants/query-keys";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  initializeGame,
+  guessLetter,
+  resetGame,
+} from "@/store/slices/game-slice";
 
 const MAX_MISTAKES = 6;
 
 export default function GamePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const difficulty = Number(searchParams.get("difficulty"));
 
-  const { data: word, isLoading, error, refetch } = useRandomWord(difficulty);
+  const dispatch = useAppDispatch();
+  const {
+    word: reduxWord,
+    difficulty: reduxDifficulty,
+    guessedLetters,
+    mistakes,
+    gameStatus,
+  } = useAppSelector((state) => state.game);
 
-  const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
-  const [mistakes, setMistakes] = useState(0);
-  const [gameStatus, setGameStatus] = useState<GameStatus>(
-    GameStatus.PLAYING,
-  );
+  const shouldFetch = !reduxWord || reduxDifficulty !== difficulty;
+  const {
+    data: fetchedWord,
+    isLoading,
+    error,
+  } = useRandomWord(shouldFetch ? difficulty : undefined);
+
+  useEffect(() => {
+    if (fetchedWord && difficulty) {
+      dispatch(initializeGame({ difficulty, word: fetchedWord.word }));
+    }
+  }, [fetchedWord, difficulty, dispatch]);
+
+  const currentWord =
+    reduxWord && reduxDifficulty === difficulty ? reduxWord : fetchedWord?.word;
 
   const getDifficultyName = (diff: number) => {
     switch (diff) {
@@ -41,44 +61,13 @@ export default function GamePage() {
   };
 
   const handleLetterClick = (letter: string) => {
-    if (gameStatus !== GameStatus.PLAYING || !word) return;
-
-    const newGuessed = new Set(guessedLetters);
-    newGuessed.add(letter);
-    setGuessedLetters(newGuessed);
-
-    const isCorrectGuess = word.word.toUpperCase().includes(letter);
-    const newMistakes = isCorrectGuess ? mistakes : mistakes + 1;
-
-    if (!isCorrectGuess) {
-      setMistakes(newMistakes);
-    }
-
-    // Check for loss
-    if (newMistakes >= MAX_MISTAKES) {
-      setGameStatus(GameStatus.LOST);
-      return;
-    }
-
-    // Check for win
-    const wordLetters = word.word.toUpperCase().split("");
-    const allLettersGuessed = wordLetters.every((l) => newGuessed.has(l));
-
-    if (allLettersGuessed) {
-      setGameStatus(GameStatus.WON);
-    }
+    if (gameStatus !== GameStatus.PLAYING || !currentWord) return;
+    dispatch(guessLetter(letter));
   };
 
   const handleRestart = () => {
-    setGuessedLetters(new Set());
-    setMistakes(0);
-    setGameStatus(GameStatus.PLAYING);
-    queryClient.invalidateQueries({
-      queryKey: [QueryKeys.WORD_RANDOM, difficulty],
-    });
-    refetch();
+    dispatch(resetGame());
   };
-
 
   if (!difficulty || !Object.values(WordDifficulty).includes(difficulty)) {
     return (
@@ -117,7 +106,7 @@ export default function GamePage() {
     );
   }
 
-  if (!word) {
+  if (!currentWord) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <h1 className="text-3xl font-bold text-yellow-500">No Word Found</h1>
@@ -170,7 +159,7 @@ export default function GamePage() {
           <h2 className="text-3xl font-bold text-green-600 dark:text-green-400">
             🎉 You Won!
           </h2>
-          <p className="text-lg">The word was: {word.word.toUpperCase()}</p>
+          <p className="text-lg">The word was: {currentWord.toUpperCase()}</p>
           <Button onClick={handleRestart} className="w-full">
             Play Again
           </Button>
@@ -182,7 +171,7 @@ export default function GamePage() {
           <h2 className="text-3xl font-bold text-red-600 dark:text-red-400">
             😞 Game Over
           </h2>
-          <p className="text-lg">The word was: {word.word.toUpperCase()}</p>
+          <p className="text-lg">The word was: {currentWord.toUpperCase()}</p>
           <Button onClick={handleRestart} className="w-full">
             Try Again
           </Button>
@@ -191,10 +180,13 @@ export default function GamePage() {
 
       {gameStatus === GameStatus.PLAYING && (
         <>
-          <WordDisplay word={word.word} guessedLetters={guessedLetters} />
+          <WordDisplay
+            word={currentWord}
+            guessedLetters={new Set(guessedLetters)}
+          />
           <VirtualKeyboard
             onLetterClick={handleLetterClick}
-            guessedLetters={guessedLetters}
+            guessedLetters={new Set(guessedLetters)}
             disabled={gameStatus !== GameStatus.PLAYING}
           />
         </>
