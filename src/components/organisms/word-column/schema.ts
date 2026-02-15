@@ -1,14 +1,9 @@
 import { z } from "zod";
 import { WordDifficulty } from "@/constants/general";
-
-const WORD_LENGTH_REQUIREMENTS = {
-  [WordDifficulty.EASY]: { min: 6, max: 8 },
-  [WordDifficulty.MEDIUM]: { min: 9, max: 11 },
-  [WordDifficulty.HARD]: { min: 12, max: 14 },
-};
+import { DIFFICULTY_CONFIG } from "@/constants/difficulty";
 
 export const createWordSchema = (difficulty: WordDifficulty) => {
-  const { min, max } = WORD_LENGTH_REQUIREMENTS[difficulty];
+  const { minLength: min, maxLength: max } = DIFFICULTY_CONFIG[difficulty];
 
   return z.object({
     word: z

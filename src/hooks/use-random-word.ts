@@ -6,7 +6,7 @@ export function useRandomWord(difficulty?: number) {
   return useQuery({
     queryKey: [QueryKeys.WORD_RANDOM, difficulty],
     queryFn: async () => {
-      const { word, error } = await wordEndpoints.getRandomWord(difficulty);
+      const { word, error } = await wordEndpoints.getRandomWord(difficulty!);
       if (error) {
         throw error;
       }

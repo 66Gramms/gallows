@@ -2,7 +2,7 @@ import Link from "next/link";
 import Button from "../button";
 
 interface PageStateProps {
-  type: "loading" | "error" | "empty" | "invalid";
+  state: "loading" | "error" | "empty" | "invalid";
   title?: string;
   message?: string;
   details?: string;
@@ -11,14 +11,14 @@ interface PageStateProps {
 }
 
 export default function PageState({
-  type,
+  state,
   title,
   message,
   details,
   onAction,
   actionLabel = "Back to Home",
 }: PageStateProps) {
-  if (type === "loading") {
+  if (state === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <p className="text-base sm:text-lg md:text-xl">{message || "Loading..."}</p>
@@ -27,9 +27,9 @@ export default function PageState({
   }
 
   const colorClass =
-    type === "error"
+    state === "error"
       ? "text-red-500"
-      : type === "empty"
+      : state === "empty"
         ? "text-yellow-500"
         : "";
 

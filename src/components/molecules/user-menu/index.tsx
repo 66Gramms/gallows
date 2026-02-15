@@ -37,7 +37,7 @@ export default function UserMenu({ user, isAdmin }: UserMenuProps) {
       <button
         onClick={() => logout.mutate()}
         disabled={logout.isPending}
-        className="text-center text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 underline disabled:text-gray-400"
+        className="text-center text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 underline disabled:text-gray-400 cursor-pointer"
       >
         {logout.isPending ? "Logging out..." : "Logout"}
       </button>

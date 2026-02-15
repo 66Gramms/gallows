@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Button from "../../molecules/button";
-import { DIFFICULTY_OPTIONS } from "@/utils/difficulty-config";
+import { DIFFICULTY_OPTIONS } from "@/constants/difficulty";
 
 const HomePage = () => {
   const router = useRouter();

@@ -16,7 +16,7 @@ import {
   guessLetter,
   resetGame,
 } from "@/store/slices/game-slice";
-import { getDifficultyName } from "@/utils/difficulty";
+import { getDifficultyName } from "@/constants/difficulty";
 
 export default function GamePage() {
   const searchParams = useSearchParams();
@@ -25,14 +25,14 @@ export default function GamePage() {
 
   const dispatch = useAppDispatch();
   const {
-    word: reduxWord,
-    difficulty: reduxDifficulty,
+    word: storedWord,
+    difficulty: storedDifficulty,
     guessedLetters,
     mistakes,
     gameStatus,
   } = useAppSelector((state) => state.game);
 
-  const shouldFetch = !reduxWord || reduxDifficulty !== difficulty;
+  const shouldFetch = !storedWord || storedDifficulty !== difficulty;
   const {
     data: fetchedWord,
     isLoading,
@@ -46,7 +46,9 @@ export default function GamePage() {
   }, [fetchedWord, difficulty, dispatch]);
 
   const currentWord =
-    reduxWord && reduxDifficulty === difficulty ? reduxWord : fetchedWord?.word;
+    storedWord && storedDifficulty === difficulty
+      ? storedWord
+      : fetchedWord?.word;
 
   const handleLetterClick = (letter: string) => {
     if (gameStatus !== GameStatus.PLAYING || !currentWord) return;
@@ -63,17 +65,17 @@ export default function GamePage() {
   };
 
   if (!difficulty || !Object.values(WordDifficulty).includes(difficulty)) {
-    return <PageState type="invalid" title="Invalid Difficulty" />;
+    return <PageState state="invalid" title="Invalid Difficulty" />;
   }
 
   if (isLoading) {
-    return <PageState type="loading" message="Loading word..." />;
+    return <PageState state="loading" message="Loading word..." />;
   }
 
   if (error) {
     return (
       <PageState
-        type="error"
+        state="error"
         title="Error"
         message={error instanceof Error ? error.message : "Failed to load word"}
         details={`Difficulty: ${difficulty} (${getDifficultyName(difficulty)})`}
@@ -85,7 +87,7 @@ export default function GamePage() {
   if (!currentWord) {
     return (
       <PageState
-        type="empty"
+        state="empty"
         title="No Word Found"
         message={`No words available for difficulty: ${getDifficultyName(difficulty)}`}
         details={`Please add words to the database for difficulty level ${difficulty}`}

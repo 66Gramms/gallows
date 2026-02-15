@@ -5,8 +5,7 @@ import {
   useUpdateWord,
   useDeleteWord,
 } from "@/hooks/use-words";
-import { getDifficultyName } from "@/utils/difficulty";
-import { getWordLengthRequirements } from "@/utils/word-requirements";
+import { getDifficultyName, getWordLengthRequirements } from "@/constants/difficulty";
 import DifficultyHeader from "@/components/molecules/difficulty-header";
 import AddWordForm from "@/components/molecules/add-word-form";
 import WordsList from "@/components/molecules/words-list";

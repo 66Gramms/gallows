@@ -16,6 +16,7 @@ export default function MistakeIndicator({
         {Array.from({ length: max }).map((_, i) => (
           <div
             key={i}
+            aria-label={i < current ? "Mistake" : "Remaining attempt"}
             className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
               i < current ? "bg-red-500" : "bg-gray-300 dark:bg-gray-700"
             }`}

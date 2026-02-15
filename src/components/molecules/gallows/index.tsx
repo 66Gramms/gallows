@@ -9,7 +9,12 @@ export default function Gallows({ mistakes }: GallowsProps) {
 
   return (
     <div className="flex items-center justify-center w-full max-w-xs mx-auto">
-      <svg viewBox="0 0 200 250" className="w-full h-full" role="img">
+      <svg
+        viewBox="0 0 200 250"
+        className="w-full h-full"
+        role="img"
+        aria-label={`Gallows showing ${mistakes} incorrect guesses`}
+      >
         <g className="animate-draw-in">
           <line
             x1="10"

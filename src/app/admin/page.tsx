@@ -11,13 +11,13 @@ export default function AdminPage() {
   const { user, isLoading, hasAccess, isAuthenticated } = useAdminAccess();
 
   if (isLoading) {
-    return <PageState type="loading" message="Checking permissions..." />;
+    return <PageState state="loading" message="Checking permissions..." />;
   }
 
   if (!isAuthenticated) {
     return (
       <PageState
-        type="error"
+        state="error"
         title="Unauthorized"
         message="You must be logged in to access this page."
         onAction={() => router.push("/auth")}
@@ -29,7 +29,7 @@ export default function AdminPage() {
   if (!hasAccess) {
     return (
       <PageState
-        type="error"
+        state="error"
         title="Access Denied"
         message="You do not have permission to access this page."
         onAction={() => router.push("/")}
