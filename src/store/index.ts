@@ -6,7 +6,7 @@ import gameReducer from "./slices/game-slice";
 const persistConfig = {
   key: "gallows",
   storage,
-  whitelist: ["game"], // Only persist game state
+  whitelist: ["game"],
 };
 
 const rootReducer = combineReducers({

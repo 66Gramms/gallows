@@ -23,9 +23,8 @@ export const gameSlice = createSlice({
   reducers: {
     initializeGame: (
       state,
-      action: PayloadAction<{ difficulty: number; word: string }>
+      action: PayloadAction<{ difficulty: number; word: string }>,
     ) => {
-      // Only reset if it's a different word or difficulty
       if (
         state.word !== action.payload.word ||
         state.difficulty !== action.payload.difficulty
@@ -65,7 +64,7 @@ export const gameSlice = createSlice({
       // Check for win
       const wordLetters = state.word.toUpperCase().split("");
       const allLettersGuessed = wordLetters.every((l) =>
-        state.guessedLetters.includes(l)
+        state.guessedLetters.includes(l),
       );
 
       if (allLettersGuessed) {
@@ -82,7 +81,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { initializeGame, guessLetter, resetGame } =
-  gameSlice.actions;
+export const { initializeGame, guessLetter, resetGame } = gameSlice.actions;
 
 export default gameSlice.reducer;
