@@ -1,20 +1,27 @@
-import Link from "next/link";
+import Button from "@/components/molecules/button";
 
 interface GameLayoutProps {
   children: React.ReactNode;
+  onBackToHome?: () => void;
 }
 
-export default function GameLayout({ children }: GameLayoutProps) {
+export default function GameLayout({
+  children,
+  onBackToHome,
+}: GameLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-8 p-4">
-      <div className="flex flex-col items-center gap-2">
-        <Link
-          href="/"
-          className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
-        >
-          ← Back to home
-        </Link>
-      </div>
+      {onBackToHome && (
+        <div className="flex flex-col items-center gap-2">
+          <Button
+            onClick={onBackToHome}
+            variant="secondary"
+            className="p-2! text-sm"
+          >
+            ← Back to home
+          </Button>
+        </div>
+      )}
       {children}
     </div>
   );

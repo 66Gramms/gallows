@@ -58,6 +58,7 @@ export default function GamePage() {
   };
 
   const handleGoHome = () => {
+    dispatch(resetGame());
     router.push("/");
   };
 
@@ -96,7 +97,7 @@ export default function GamePage() {
   const guessedLettersSet = new Set(guessedLetters);
 
   return (
-    <GameLayout>
+    <GameLayout onBackToHome={handleGoHome}>
       <GameHeader
         difficulty={getDifficultyName(difficulty)}
         mistakes={mistakes}
