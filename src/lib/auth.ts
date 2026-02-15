@@ -1,5 +1,5 @@
-import { supabase } from './supabase';
-import type { User, AuthError, Session } from '@supabase/supabase-js';
+import { supabase } from "./supabase";
+import type { User, AuthError, Session } from "@supabase/supabase-js";
 
 export interface AuthResponse {
   user: User | null;
@@ -22,8 +22,12 @@ export interface SignInData {
   password: string;
 }
 
-export const authHelpers = {
-  async signUp({ email, password, options }: SignUpData): Promise<AuthResponse> {
+export const authEndpoints = {
+  async signUp({
+    email,
+    password,
+    options,
+  }: SignUpData): Promise<AuthResponse> {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -46,12 +50,16 @@ export const authHelpers = {
   },
 
   async getCurrentUser(): Promise<User | null> {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     return user;
   },
 
   async getSession(): Promise<Session | null> {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     return session;
   },
 
@@ -60,7 +68,9 @@ export const authHelpers = {
     return { error };
   },
 
-  async updatePassword(newPassword: string): Promise<{ error: AuthError | null }> {
+  async updatePassword(
+    newPassword: string,
+  ): Promise<{ error: AuthError | null }> {
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });

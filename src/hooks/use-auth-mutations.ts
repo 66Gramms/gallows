@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authHelpers, type SignInData, type SignUpData } from "@/lib/auth";
+import { authEndpoints, type SignInData, type SignUpData } from "@/lib/auth";
 
 export function useSignUp() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: SignUpData) => {
-      const result = await authHelpers.signUp(data);
+      const result = await authEndpoints.signUp(data);
       if (result.error) {
         throw result.error;
       }
@@ -23,7 +23,7 @@ export function useSignIn() {
 
   return useMutation({
     mutationFn: async (data: SignInData) => {
-      const result = await authHelpers.signIn(data);
+      const result = await authEndpoints.signIn(data);
       if (result.error) {
         throw result.error;
       }
@@ -40,7 +40,7 @@ export function useSignOut() {
 
   return useMutation({
     mutationFn: async () => {
-      const result = await authHelpers.signOut();
+      const result = await authEndpoints.signOut();
       if (result.error) {
         throw result.error;
       }
@@ -55,7 +55,7 @@ export function useSignOut() {
 export function useResetPassword() {
   return useMutation({
     mutationFn: async (email: string) => {
-      const result = await authHelpers.resetPassword(email);
+      const result = await authEndpoints.resetPassword(email);
       if (result.error) {
         throw result.error;
       }
@@ -67,7 +67,7 @@ export function useResetPassword() {
 export function useUpdatePassword() {
   return useMutation({
     mutationFn: async (newPassword: string) => {
-      const result = await authHelpers.updatePassword(newPassword);
+      const result = await authEndpoints.updatePassword(newPassword);
       if (result.error) {
         throw result.error;
       }
