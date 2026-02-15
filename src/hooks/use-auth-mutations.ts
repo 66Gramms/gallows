@@ -1,0 +1,77 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { authHelpers, type SignInData, type SignUpData } from "@/lib/auth";
+
+export function useSignUp() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: SignUpData) => {
+      const result = await authHelpers.signUp(data);
+      if (result.error) {
+        throw result.error;
+      }
+      return result.user;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+  });
+}
+
+export function useSignIn() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: SignInData) => {
+      const result = await authHelpers.signIn(data);
+      if (result.error) {
+        throw result.error;
+      }
+      return result.user;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+  });
+}
+
+export function useSignOut() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const result = await authHelpers.signOut();
+      if (result.error) {
+        throw result.error;
+      }
+      return null;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+  });
+}
+
+export function useResetPassword() {
+  return useMutation({
+    mutationFn: async (email: string) => {
+      const result = await authHelpers.resetPassword(email);
+      if (result.error) {
+        throw result.error;
+      }
+      return true;
+    },
+  });
+}
+
+export function useUpdatePassword() {
+  return useMutation({
+    mutationFn: async (newPassword: string) => {
+      const result = await authHelpers.updatePassword(newPassword);
+      if (result.error) {
+        throw result.error;
+      }
+      return true;
+    },
+  });
+}
