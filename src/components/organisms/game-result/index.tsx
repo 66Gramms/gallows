@@ -5,12 +5,14 @@ interface GameResultProps {
   status: GameStatus.WON | GameStatus.LOST;
   word: string;
   onRestart: () => void;
+  onGoHome: () => void;
 }
 
 export default function GameResult({
   status,
   word,
   onRestart,
+  onGoHome,
 }: GameResultProps) {
   const isWon = status === GameStatus.WON;
 
@@ -43,9 +45,14 @@ export default function GameResult({
         {currentConfig.emoji} {currentConfig.title}
       </h2>
       <p className="text-lg">The word was: {word.toUpperCase()}</p>
-      <Button onClick={onRestart} className="w-full">
-        {currentConfig.buttonText}
-      </Button>
+      <div className="flex flex-col gap-2 w-full">
+        <Button onClick={onRestart} className="w-full">
+          {currentConfig.buttonText}
+        </Button>
+        <Button onClick={onGoHome} className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-600">
+          Go Home
+        </Button>
+      </div>
     </div>
   );
 }

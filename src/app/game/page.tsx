@@ -57,6 +57,10 @@ export default function GamePage() {
     dispatch(resetGame());
   };
 
+  const handleGoHome = () => {
+    router.push("/");
+  };
+
   if (!difficulty || !Object.values(WordDifficulty).includes(difficulty)) {
     return <PageState type="invalid" title="Invalid Difficulty" />;
   }
@@ -104,6 +108,7 @@ export default function GamePage() {
           status={GameStatus.WON}
           word={currentWord}
           onRestart={handleRestart}
+          onGoHome={handleGoHome}
         />
       )}
 
@@ -112,6 +117,7 @@ export default function GamePage() {
           status={GameStatus.LOST}
           word={currentWord}
           onRestart={handleRestart}
+          onGoHome={handleGoHome}
         />
       )}
 
