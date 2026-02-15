@@ -1,4 +1,5 @@
 import MistakeIndicator from "../mistake-indicator";
+import Gallows from "../gallows";
 
 interface GameHeaderProps {
   difficulty: string;
@@ -17,6 +18,7 @@ export default function GameHeader({
       <p className="text-xl text-gray-600 dark:text-gray-400">
         Difficulty: {difficulty}
       </p>
+      <Gallows mistakes={mistakes} />
       <MistakeIndicator current={mistakes} max={maxMistakes} />
     </div>
   );
