@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignIn } from "@/hooks/use-auth-mutations";
 import { signInSchema, type SignInFormData } from "@/app/auth/schema";
 import Button from "@/components/molecules/button";
+import Input from "@/components/molecules/input";
 
 export default function SignInForm() {
   const signInMutation = useSignIn();
@@ -26,33 +27,19 @@ export default function SignInForm() {
       onSubmit={form.handleSubmit(onSubmit)}
       className="flex flex-col gap-4"
     >
-      <div className="flex flex-col gap-1">
-        <input
-          type="email"
-          placeholder="Email"
-          {...form.register("email")}
-          className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-        />
-        {form.formState.errors.email && (
-          <span className="text-red-500 text-sm">
-            {form.formState.errors.email.message}
-          </span>
-        )}
-      </div>
+      <Input
+        type="email"
+        placeholder="Email"
+        error={form.formState.errors.email?.message}
+        {...form.register("email")}
+      />
 
-      <div className="flex flex-col gap-1">
-        <input
-          type="password"
-          placeholder="Password"
-          {...form.register("password")}
-          className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-        />
-        {form.formState.errors.password && (
-          <span className="text-red-500 text-sm">
-            {form.formState.errors.password.message}
-          </span>
-        )}
-      </div>
+      <Input
+        type="password"
+        placeholder="Password"
+        error={form.formState.errors.password?.message}
+        {...form.register("password")}
+      />
 
       {signInMutation.error && (
         <div className="text-red-500 text-sm">

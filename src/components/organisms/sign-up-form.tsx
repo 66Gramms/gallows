@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignUp } from "@/hooks/use-auth-mutations";
 import { signUpSchema, type SignUpFormData } from "@/app/auth/schema";
 import Button from "@/components/molecules/button";
+import Input from "@/components/molecules/input";
 
 export default function SignUpForm() {
   const signUpMutation = useSignUp();
@@ -30,47 +31,26 @@ export default function SignUpForm() {
       onSubmit={form.handleSubmit(onSubmit)}
       className="flex flex-col gap-4"
     >
-      <div className="flex flex-col gap-1">
-        <input
-          type="email"
-          placeholder="Email"
-          {...form.register("email")}
-          className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-        />
-        {form.formState.errors.email && (
-          <span className="text-red-500 text-sm">
-            {form.formState.errors.email.message}
-          </span>
-        )}
-      </div>
+      <Input
+        type="email"
+        placeholder="Email"
+        error={form.formState.errors.email?.message}
+        {...form.register("email")}
+      />
 
-      <div className="flex flex-col gap-1">
-        <input
-          type="password"
-          placeholder="Password"
-          {...form.register("password")}
-          className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-        />
-        {form.formState.errors.password && (
-          <span className="text-red-500 text-sm">
-            {form.formState.errors.password.message}
-          </span>
-        )}
-      </div>
+      <Input
+        type="password"
+        placeholder="Password"
+        error={form.formState.errors.password?.message}
+        {...form.register("password")}
+      />
 
-      <div className="flex flex-col gap-1">
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          {...form.register("confirmPassword")}
-          className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-        />
-        {form.formState.errors.confirmPassword && (
-          <span className="text-red-500 text-sm">
-            {form.formState.errors.confirmPassword.message}
-          </span>
-        )}
-      </div>
+      <Input
+        type="password"
+        placeholder="Confirm Password"
+        error={form.formState.errors.confirmPassword?.message}
+        {...form.register("confirmPassword")}
+      />
 
       {signUpMutation.error && (
         <div className="text-red-500 text-sm">
