@@ -39,12 +39,12 @@ export default function GameResult({
 
   return (
     <div
-      className={`flex flex-col items-center gap-4 p-6 ${currentConfig.bgColor} border-2 ${currentConfig.borderColor} rounded-lg`}
+      className={`flex flex-col items-center gap-3 sm:gap-4 p-4 sm:p-6 ${currentConfig.bgColor} border-2 ${currentConfig.borderColor} rounded-lg max-w-md mx-auto`}
     >
-      <h2 className={`text-3xl font-bold ${currentConfig.textColor}`}>
+      <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${currentConfig.textColor}`}>
         {currentConfig.emoji} {currentConfig.title}
       </h2>
-      <p className="text-lg">The word was: {word.toUpperCase()}</p>
+      <p className="text-sm sm:text-base md:text-lg">The word was: {word.toUpperCase()}</p>
       <div className="flex flex-col gap-2 w-full">
         <Button onClick={onRestart} className="w-full">
           {currentConfig.buttonText}

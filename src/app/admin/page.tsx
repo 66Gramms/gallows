@@ -39,7 +39,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
+    <div className="min-h-screen bg-zinc-50 dark:bg-black p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         <AdminHeader userEmail={user!.email!} />
         <WordManagementGrid />
