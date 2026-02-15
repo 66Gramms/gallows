@@ -12,7 +12,7 @@ export interface SignUpData {
   options?: {
     data?: {
       full_name?: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
   };
 }
