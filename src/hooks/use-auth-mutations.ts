@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { authEndpoints, type SignInData, type SignUpData } from "@/lib/auth";
+import { QueryKeys } from "@/constants/query-keys";
 
 export function useSignUp() {
   const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ export function useSignUp() {
       return result.user;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.AUTH] });
     },
   });
 }
@@ -30,7 +31,7 @@ export function useSignIn() {
       return result.user;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.AUTH] });
     },
   });
 }
@@ -47,7 +48,7 @@ export function useSignOut() {
       return null;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.AUTH] });
     },
   });
 }
