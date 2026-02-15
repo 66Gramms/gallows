@@ -3,3 +3,9 @@ export enum WordDifficulty {
   MEDIUM,
   HARD,
 }
+
+export enum GameStatus {
+  PLAYING = "playing",
+  WON = "won",
+  LOST = "lost",
+}
