@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GameStatus } from "@/constants/general";
-
-const MAX_MISTAKES = 6;
+import { GameStatus, MAX_MISTAKES } from "@/constants/general";
 
 interface GameState {
   difficulty: number | null;
@@ -74,9 +72,6 @@ export const gameSlice = createSlice({
         state.gameStatus = GameStatus.WON;
       }
     },
-    updateGameStatus: (state, action: PayloadAction<GameStatus>) => {
-      state.gameStatus = action.payload;
-    },
     resetGame: (state) => {
       state.word = null;
       state.difficulty = null;
@@ -87,7 +82,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { initializeGame, guessLetter, updateGameStatus, resetGame } =
+export const { initializeGame, guessLetter, resetGame } =
   gameSlice.actions;
 
 export default gameSlice.reducer;

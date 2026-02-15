@@ -9,3 +9,5 @@ export enum GameStatus {
   WON = "won",
   LOST = "lost",
 }
+
+export const MAX_MISTAKES = 6;
