@@ -29,21 +29,14 @@ export const wordEndpoints = {
     return { words: data, error };
   },
 
-  async getRandomWord(difficulty?: number): Promise<WordResponse> {
-    let query = supabase.from("words").select("*");
+  async getRandomWord(difficulty: number): Promise<WordResponse> {
+    const { data, error } = await supabase
+      .rpc("get_random_word", {
+        difficulty_param: difficulty,
+      })
+      .single();
 
-    if (difficulty !== undefined) {
-      query = query.eq("difficulty", difficulty);
-    }
-
-    const { data, error } = await query;
-
-    if (error || !data || data.length === 0) {
-      return { word: null, error };
-    }
-
-    const randomIndex = Math.floor(Math.random() * data.length);
-    return { word: data[randomIndex], error: null };
+    return { word: data as Word | null, error };
   },
 
   async createWord(word: string, difficulty: number): Promise<WordResponse> {
